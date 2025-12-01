@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PothSawiya - Learn & Grow</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html">
+        <div class="logo">
+          <span class="logo-icon">📚</span>
+          <span class="logo-text">PothSawiya</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Homepage</a></li>
+        <li><a href="#books" class="nav-link">Books</a></li>
+        <li><a href="#donate" class="nav-link">Donate</a></li>
+        <li><a href="#contact" class="nav-link">Contact Us</a></li>
+      </ul>
+
+      <!-- Hamburger Menu -->
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Navigation Menu -->
+  <div class="mobile-menu" id="navMenu">
+    <ul class="mobile-nav-menu">
+      <li><a href="index.html" class="mobile-nav-link">Homepage</a></li>
+      <li><a href="#books" class="mobile-nav-link">Books</a></li>
+      <li><a href="#donate" class="mobile-nav-link">Donate</a></li>
+      <li><a href="#contact" class="mobile-nav-link">Contact Us</a></li>
+    </ul>
+  </div>
+
+  <!-- Main Container -->
+  <main class="donate-main">
+    <div class="donate-container">
+
+      <!-- Form Section -->
+      <div class="form-section" id="formSection">
+        <div class="form-header">
+          <h1>Donate Your Books</h1>
+          <p>Help us build a better education for everyone</p>
+        </div>
+
+        <form id="donateForm" class="glass-form">
+          <!-- Step 1 -->
+          <div class="form-step active" id="step1">
+            <h2>Personal Information</h2>
+            <div class="form-group">
+              <label for="name">Full Name *</label>
+              <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+              <span class="error-message" id="nameError"></span>
+            </div>
+            <div class="form-group">
+              <label for="whatsapp">WhatsApp Number *</label>
+              <input type="tel" id="whatsapp" name="whatsapp" placeholder="+94 7XX XXX XXX"
+                pattern="[0-9+\s\-]+" required>
+              <span class="error-message" id="whatsappError"></span>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn-next" onclick="nextStep(2)">Next</button>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="form-step" id="step2">
+            <h2>Location Details</h2>
+            <div class="form-group">
+              <label for="district">District *</label>
+              <select id="district" name="district" required onchange="updateTowns()">
+                <option value="">Select District</option>
+              </select>
+              <span class="error-message" id="districtError"></span>
+            </div>
+            <div class="form-group">
+              <label for="town">Town *</label>
+              <select id="town" name="town" required>
+                <option value="">Select Town</option>
+              </select>
+              <span class="error-message" id="townError"></span>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn-prev" onclick="prevStep(1)">Previous</button>
+              <button type="button" class="btn-next" onclick="nextStep(3)">Next</button>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="form-step" id="step3">
+            <h2>Education Details</h2>
+            <div class="form-group">
+              <label for="category">Category *</label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="category" value="ol" required onchange="updateSubjects()">
+                  <span>Ordinary Level (O/L)</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="category" value="al" required onchange="updateSubjects()">
+                  <span>Advanced Level (A/L)</span>
+                </label>
+              </div>
+              <span class="error-message" id="categoryError"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="subject">Subject *</label>
+              <select id="subject" name="subject" required>
+                <option value="">Select Category First</option>
+              </select>
+              <span class="error-message" id="subjectError"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="language">Language *</label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="language" value="english" required>
+                  <span>English</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="language" value="sinhala" required>
+                  <span>Sinhala</span>
+                </label>
+              </div>
+              <span class="error-message" id="languageError"></span>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-prev" onclick="prevStep(2)">Previous</button>
+              <button type="button" class="btn-next" onclick="nextStep(4)">Next</button>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="form-step" id="step4">
+            <h2>Book Details</h2>
+            <div class="form-group">
+              <label for="title">Book Title *</label>
+              <input type="text" id="title" name="title" placeholder="Enter book title" required>
+              <span class="error-message" id="titleError"></span>
+            </div>
+            <div class="form-group">
+              <label for="description">Description *</label>
+              <textarea id="description" name="description"
+                placeholder="Describe the book, its condition, and why you're donating it..." rows="5"
+                required></textarea>
+              <span class="error-message" id="descriptionError"></span>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn-prev" onclick="prevStep(3)">Previous</button>
+              <button type="submit" class="btn-submit">Submit Donation</button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Progress Indicator -->
+        <div class="progress-indicator">
+          <div class="progress-step active" data-step="1">1</div>
+          <div class="progress-line"></div>
+          <div class="progress-step" data-step="2">2</div>
+          <div class="progress-line"></div>
+          <div class="progress-step" data-step="3">3</div>
+          <div class="progress-line"></div>
+          <div class="progress-step" data-step="4">4</div>
+        </div>
+      </div>
+
+      <!-- Success Section -->
+      <div class="success-section hidden" id="successSection">
+        <div class="success-card">
+          <div class="success-icon">✓</div>
+          <h2>Thank You!</h2>
+          <p>Your donation has been received successfully.</p>
+          <p class="success-details">We will contact you at <span id="successWhatsapp"></span> to arrange pickup.</p>
+          <a href="index.html" class="btn-home">Back to Homepage</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer id="contact" class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Contact Us</h4>
+        <p>Email: hello@PothSawiya.com</p>
+        <p>Phone: +94725665491</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#books">Books</a></li>
+          <li><a href="#donate">Donate</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Follow Us</h4>
+        <p>📱 Social Media Links</p>
+      </div>
+    </div>
+    <p class="footer-bottom">© 2025 PothSawiya. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="donate-script.js"></script>
+
+  <!-- Firebase Integration -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA7couJ2N6P8Ew6bjWyBTG4CCWJ2NrtTcM",
+      authDomain: "books-3bbeb.firebaseapp.com",
+      projectId: "books-3bbeb",
+      storageBucket: "books-3bbeb.firebasestorage.app",
+      messagingSenderId: "28862274150",
+      appId: "1:28862274150:web:3de6dd399b7af41e0e6ba7",
+      measurementId: "G-BTG34BTFTM"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const donationsRef = collection(db, "donations");
+
+    // Handle form submission
+    const form = document.getElementById("donateForm");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      // Validate last step
+      const title = document.getElementById("title").value.trim();
+      const description = document.getElementById("description").value.trim();
+      if (!title || !description) {
+        alert("Please complete the book details.");
+        return;
+      }
+
+      // Collect form data
+      const formData = {
+        personal: {
+          name: document.getElementById("name").value,
+          whatsapp: document.getElementById("whatsapp").value
+        },
+        location: {
+          district: document.getElementById("district").value,
+          town: document.getElementById("town").value
+        },
+        s: {
+          category: document.querySelector('input[name="category"]:checked')?.value,
+          subject: document.getElementById("subject").value,
+          language: document.querySelector('input[name="language"]:checked')?.value
+        },
+        book: {
+          title: title,
+          description: description
+        },
+        timestamp: serverTimestamp()
+      };
+
+      try {
+        // Add document with auto-generated ID
+        await addDoc(donationsRef, formData);
+
+        // Show success
+        document.getElementById("successWhatsapp").textContent = formData.personal.whatsapp;
+        document.getElementById("formSection").classList.add("hidden");
+        document.getElementById("successSection").classList.remove("hidden");
+
+        form.reset();
+      } catch (error) {
+        console.error("Error saving donation:", error);
+        alert("There was an error submitting your donation. Please try again.");
+      }
+    });
+  </script>
+
+</body>
+
+</html>

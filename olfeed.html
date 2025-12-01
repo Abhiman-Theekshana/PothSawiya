@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PothSawiya - O/L Feed</title>
+    <link rel="stylesheet" href="styles.css">
+    
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text">PothSawiya</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Homepage</a></li>
+                <li><a href="#books" class="nav-link">Books</a></li>
+                <li><a href="#donate" class="nav-link">Donate</a></li>
+                <li><a href="#contact" class="nav-link">Contact Us</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-menu">
+        <ul class="mobile-nav-menu">
+            <li><a href="index.html" class="mobile-nav-link">Homepage</a></li>
+            <li><a href="#books" class="mobile-nav-link">Books</a></li>
+            <li><a href="#donate" class="mobile-nav-link">Donate</a></li>
+            <li><a href="#contact" class="mobile-nav-link">Contact Us</a></li>
+        </ul>
+    </div>
+
+    <!-- Feed Section -->
+    <main class="feed-section">
+        <div class="feed-header">
+            <h1 class="feed-title">O/L Book Feed</h1>
+            <p class="feed-subtitle">Browse all available O/L book donations</p>
+        </div>
+
+        <!-- Sorting -->
+        <div class="sorting-section">
+            <div class="sorting-container">
+                <div class="sorting-wrapper">
+                    <div class="sort-group">
+                        <label for="sortSubject" class="sort-label">Subject</label>
+                        <select id="sortSubject" class="sort-select">
+                            <option value="">All Subjects</option>
+                        </select>
+                    </div>
+                    <div class="sort-group">
+                        <label for="sortLanguage" class="sort-label">Language</label>
+                        <select id="sortLanguage" class="sort-select">
+                            <option value="">All Languages</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feed Container -->
+        <div class="feed-container" id="olFeed">
+            <!-- Donation cards will be injected here -->
+        </div>
+    </main>
+
+    <!-- Request Donation Popup -->
+    <div id="request-popup">
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <h2>Request Book</h2>
+            <!-- Success message placeholder -->
+            <div class="success-message" id="request-success"></div>
+            <form id="requestForm">
+                <input type="text" id="r-name" placeholder="Full Name" required>
+                <input type="tel" id="r-phone" placeholder="Phone Number" required>
+                <input type="text" id="r-nic" placeholder="NIC" required>
+                <select id="r-district" required>
+                    <option value="">Select District</option>
+                </select>
+                <select id="r-town" required>
+                    <option value="">Select Town</option>
+                </select>
+                <textarea id="r-address" placeholder="Address" required></textarea>
+                <textarea id="r-note" placeholder="Additional Notes"></textarea>
+                <input type="text" id="r-location" placeholder="Preferred Location to Collect Book" required>
+                <button type="submit">Submit Request</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>Email: hello@PothSawiya.com</p>
+                <p>Phone: +94725665491</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#books">Books</a></li>
+                    <li><a href="#donate">Donate</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <p>📱 Social Media Links</p>
+            </div>
+        </div>
+        <p class="footer-bottom">© 2025 PothSawiya. All rights reserved.</p>
+    </footer>
+
+    <!-- Firebase & Feed Script -->
+    <script type="module">
+        import { Feed } from './feed.js';
+
+        // Initialize O/L feed
+        new Feed({
+            feedContainerId: 'olFeed',
+            category: 'ol',
+            sortSubjectId: 'sortSubject',
+            sortLanguageId: 'sortLanguage',
+            requestPopupId: 'request-popup',
+            requestFormId: 'requestForm'
+        });
+
+        // Hamburger menu toggle
+        const hamburger = document.querySelector(".hamburger");
+        const mobileMenu = document.querySelector(".mobile-menu");
+        hamburger.addEventListener("click", () => {
+            hamburger.classList.toggle("active");
+            mobileMenu.classList.toggle("active");
+        });
+    </script>
+</body>
+
+</html>

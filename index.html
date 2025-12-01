@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PothSawiya - Learn & Grow</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text">PothSawiya</span>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Homepage</a></li>
+                <li><a href="#books" class="nav-link">Books</a></li>
+                <li><a href="#donate" class="nav-link">Donate</a></li>
+                <li><a href="#contact" class="nav-link">Contact Us</a></li>
+            </ul>
+
+            <!-- Hamburger Menu -->
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-menu">
+        <ul class="mobile-nav-menu">
+            <li><a href="#home" class="mobile-nav-link">Homepage</a></li>
+            <li><a href="#books" class="mobile-nav-link">Books</a></li>
+            <li><a href="#donate" class="mobile-nav-link">Donate</a></li>
+            <li><a href="#contact" class="mobile-nav-link">Contact Us</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content Section -->
+    <main id="books" class="main-content">
+        <section class="books-section">
+            <h2 class="section-title"><span class="sinhala">සිසු සවිය</span> - Largest Bookshare</h2>
+
+            <div class="books-container">
+                <!-- Advanced Level Books -->
+                <div class="book-card advanced">
+                    <div class="card-header">
+                        <span class="card-icon">🎓</span>
+                        <li>
+                            <ol>
+                                <h3>Advanced Level Books</h3>
+                            </ol>
+                            <ol>
+                                <h3 class="sinhalav">උසස් පෙළ</h3>
+                            </ol>
+                        </li>
+
+                    </div>
+                    <p class="card-description">For the one who indeed , Browse adn Request do you need any books That
+                        have been listed there</p>
+                    <ul class="card-features">
+                        <li>✓ Multilanuage</li>
+                        <li>✓ Coverring Every Subject</li>
+                        <li>✓ Coverring whole Island</li>
+                    </ul>
+                    <a href="alfeed.html"><button class="card-btn">Explore Books</button></a>
+                </div>
+
+                <!-- Ordinary Level Books -->
+                <div class="book-card ordinary">
+                    <div class="card-header">
+                        <span class="card-icon">📖</span>
+                        <li>
+                            <ol>
+                                <h3>Ordinary Level Books</h3>
+                            </ol>
+                            <ol>
+                                <h3 class="sinhalav">සාමාන්‍ය පෙළ</h3>
+                            </ol>
+                        </li>
+                    </div>
+                    <p class="card-description">For the one who indeed , Browse adn Request do you need any books That
+                        have been listed there.</p>
+                    <ul class="card-features">
+                        <li>✓ Multilanuage</li>
+                        <li>✓ Coverring Every Subject</li>
+                        <li>✓ Coverring whole Island</li>
+                    </ul>
+                    <a href="olfeed.html"><button class="card-btn">Explore Books</button></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Donate Section -->
+        <section id="donate" class="donate-section">
+            <div class="donate-content">
+                <h2>Need Help</h2>
+                <p>start your education as soon as possible do not let the disaster stop your dreams</p>
+                <button class="donate-btn">Request Books</button>
+            </div>
+        </section>
+        <section id="donate" class="donate-section">
+            <div class="donate-content">
+                <h2>Support Our Mission</h2>
+                <p>Help us provide quality education to everyone</p>
+                <a href="donation.html"><button class="donate-btn">Donate Now</button></a>
+            </div>
+        </section>
+
+        <!-- Request Feed Section -->
+        <section class="requests-feed-section">
+            <div class="requests-feed-header">
+                <h2>Current Book Requests</h2>
+                <p>Help students in need by donating books they're requesting</p>
+            </div>
+            <div class="requests-feed-container" id="requestsFeed">
+                <!-- Request cards will be injected here -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Request Books Popup -->
+    <div id="requestPopup" class="request-popup">
+        <div class="request-popup-content">
+            <button class="close-popup" id="closeRequestPopup">&times;</button>
+
+            <!-- Form Section -->
+            <div id="requestFormSection">
+                <div class="request-popup-header">
+                    <h2>Request Books</h2>
+                    <p>Fill in your details and we'll help you find the books you need</p>
+                </div>
+
+                <form id="requestForm">
+                    <!-- Name -->
+                    <div class="request-form-group">
+                        <label for="requestName">Full Name *</label>
+                        <input type="text" id="requestName" placeholder="Enter your full name" required>
+                        <span class="request-error" id="requestNameError"></span>
+                    </div>
+
+                    <!-- WhatsApp -->
+                    <div class="request-form-group">
+                        <label for="requestWhatsapp">WhatsApp Number *</label>
+                        <input type="tel" id="requestWhatsapp" placeholder="+94 7XX XXX XXX" pattern="[0-9+\s\-]+"
+                            required>
+                        <span class="request-error" id="requestWhatsappError"></span>
+                    </div>
+
+                    <!-- NIC -->
+                    <div class="request-form-group">
+                        <label for="requestNic">NIC Number *</label>
+                        <input type="text" id="requestNic" placeholder="123456789X or 123456789012" required>
+                        <span class="request-error" id="requestNicError"></span>
+                    </div>
+
+                    <!-- Category -->
+                    <div class="request-form-group">
+                        <label>Education Level *</label>
+                        <div class="request-radio-group">
+                            <label class="request-radio-label">
+                                <input type="radio" name="requestCategory" value="ol" required>
+                                <span>O/L</span>
+                            </label>
+                            <label class="request-radio-label">
+                                <input type="radio" name="requestCategory" value="al" required>
+                                <span>A/L</span>
+                            </label>
+                        </div>
+                        <span class="request-error" id="requestCategoryError"></span>
+                    </div>
+
+                    <!-- Subject -->
+                    <div class="request-form-group">
+                        <label for="requestSubject">Subject *</label>
+                        <select id="requestSubject" required>
+                            <option value="">Select Subject</option>
+                        </select>
+                        <span class="request-error" id="requestSubjectError"></span>
+                    </div>
+
+
+                    <!-- Language -->
+                    <div class="request-form-group">
+                        <label>Language *</label>
+                        <div class="request-radio-group">
+                            <label class="request-radio-label">
+                                <input type="radio" name="requestLanguage" value="english" required>
+                                <span>English</span>
+                            </label>
+                            <label class="request-radio-label">
+                                <input type="radio" name="requestLanguage" value="sinhala" required>
+                                <span>Sinhala</span>
+                            </label>
+                        </div>
+                        <span class="request-error" id="requestLanguageError"></span>
+                    </div>
+
+                    <div class="request-form-group">
+                        <label for="requestBookTitle">Book Title *</label>
+                        <input type="text" id="requestBookTitle" placeholder="Enter book title" required>
+                        <span class="request-error" id="requestBookTitleError"></span>
+                    </div>
+
+
+
+
+
+                    <!-- District -->
+                    <div class="request-form-group">
+                        <label for="requestDistrict">District *</label>
+                        <select id="requestDistrict" required>
+                            <option value="">Select District</option>
+                        </select>
+                        <span class="request-error" id="requestDistrictError"></span>
+                    </div>
+
+                    <!-- Town -->
+                    <div class="request-form-group">
+                        <label for="requestTown">Town *</label>
+                        <select id="requestTown" required>
+                            <option value="">Select Town</option>
+                        </select>
+                        <span class="request-error" id="requestTownError"></span>
+                    </div>
+
+                    <button type="submit" class="request-submit-btn">Submit Request</button>
+                </form>
+            </div>
+
+            <!-- Success Section -->
+            <div id="requestSuccessSection" class="hidden">
+                <div class="request-success">
+                    <div class="request-success-icon">✓</div>
+                    <h3>Request Submitted!</h3>
+                    <p>Thank you for your request. We will contact you soon at <strong
+                            id="successRequestWhatsapp"></strong> with available books.</p>
+                    <button class="request-close-btn" onclick="closeRequestPopup()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donate Popup -->
+    <div id="donate-popup">
+        <div class="donate-popup-content">
+            <span class="close-popup">&times;</span>
+            <h2>Donate Book</h2>
+            <p>Fill in your details to donate this book</p>
+            <div class="success-message" id="donate-success"></div>
+            <form id="donateForm">
+                <input type="text" id="d-name" placeholder="Full Name" required>
+                <input type="tel" id="d-phone" placeholder="Phone Number" required>
+                <input type="text" id="d-nic" placeholder="NIC" required>
+                <select id="d-district" required>
+                    <option value="">Select District</option>
+                </select>
+                <select id="d-town" required>
+                    <option value="">Select Town</option>
+                </select>
+                <textarea id="d-address" placeholder="Address" required></textarea>
+                <textarea id="d-note" placeholder="Additional Notes (e.g., book condition)"></textarea>
+                <button type="submit">Submit Donation</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>Email: hello@PothSawiya.com</p>
+                <p>Phone: +94725665491</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#books">Books</a></li>
+                    <li><a href="donation.html">Donate</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <p>📱 Social Media Links</p>
+            </div>
+        </div>
+        <p class="footer-bottom">© 2025 PothSawiya. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+    <script src="request.js"></script>
+
+
+    <!-- Firebase Integration for Requests -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7couJ2N6P8Ew6bjWyBTG4CCWJ2NrtTcM",
+            authDomain: "books-3bbeb.firebaseapp.com",
+            projectId: "books-3bbeb",
+            storageBucket: "books-3bbeb.firebasestorage.app",
+            messagingSenderId: "28862274150",
+            appId: "1:28862274150:web:3de6dd399b7af41e0e6ba7",
+            measurementId: "G-BTG34BTFTM"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const requestsRef = collection(db, "requestfeed");
+
+        // Handle request form submission
+        const requestForm = document.getElementById("requestForm");
+        requestForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            if (!validateRequestForm()) {
+                return;
+            }
+
+            // Collect form data
+            const formData = {
+                name: document.getElementById("requestName").value.trim(),
+                whatsapp: document.getElementById("requestWhatsapp").value.trim(),
+                nic: document.getElementById("requestNic").value.trim(),
+                bookTitle: document.getElementById("requestBookTitle").value.trim(), // added
+                category: document.querySelector('input[name="requestCategory"]:checked').value,
+                subject: document.getElementById("requestSubject").value,
+                language: document.querySelector('input[name="requestLanguage"]:checked').value,
+                district: document.getElementById("requestDistrict").value,
+                town: document.getElementById("requestTown").value,
+                timestamp: serverTimestamp(),
+                upvotes: 0
+            };
+
+            try {
+                // Add document to Firestore
+                await addDoc(requestsRef, formData);
+
+                // Show success message
+                document.getElementById("successRequestWhatsapp").textContent = formData.whatsapp;
+                document.getElementById("requestFormSection").classList.add("hidden");
+                document.getElementById("requestSuccessSection").classList.remove("hidden");
+
+                // Reset form
+                requestForm.reset();
+            } catch (error) {
+                console.error("Error submitting request:", error);
+                alert("There was an error submitting your request. Please try again.");
+            }
+        });
+    </script>
+
+    <!-- Request Feed Integration -->
+    <script type="module">
+        import { RequestFeed } from './requestfeed.js';
+
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Request Feed
+            new RequestFeed({
+                feedContainerId: 'requestsFeed',
+                donatePopupId: 'donate-popup',
+                donateFormId: 'donateForm'
+            });
+        });
+    </script>
+</body>
+
+</html>
