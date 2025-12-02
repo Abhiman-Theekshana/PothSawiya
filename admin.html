@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - PothSawiya</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    
+
+    .overlay {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.1);
+      min-height: 100vh;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .header {
+      color: white;
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .section-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .section-btn {
+      padding: 15px 40px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      color: white;
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .section-btn:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .section-btn.active {
+      background: rgba(255, 255, 255, 0.4);
+      border-color: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .content-section {
+      display: none;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      overflow: hidden;
+    }
+
+    .filters {
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.2);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .filter-group label {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: white;
+      font-size: 0.9em;
+    }
+
+    .filter-group select {
+      padding: 10px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      font-size: 1em;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .filter-group select option {
+      color: black;
+    }
+
+    .filter-group select:focus {
+      outline: none;
+      border-color: white;
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .stat-card h3 {
+      color: white;
+      font-size: 2em;
+      margin-bottom: 5px;
+    }
+
+    .stat-card p {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.9em;
+    }
+
+    .requests-list {
+      padding: 30px;
+    }
+
+    .request-card {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 18px;
+      padding: 25px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(15px);
+      transition: all 0.3s;
+      color: white;
+    }
+
+    .request-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .request-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .request-title {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .request-title h3 {
+      color: white;
+      font-size: 1.3em;
+      margin-bottom: 5px;
+    }
+
+    .request-title p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.9em;
+    }
+
+    .status-badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: 600;
+    }
+
+    .badge-fulfilled {
+      background: #d1f4e0;
+      color: #0f5132;
+    }
+
+    .badge-pending {
+      background: #fff3cd;
+      color: #664d03;
+    }
+
+    .badge-category {
+      background: #cfe2ff;
+      color: #084298;
+    }
+
+    .badge-language {
+      background: #e7d4ff;
+      color: #6610f2;
+    }
+
+    .request-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .detail-section {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 15px;
+      border-radius: 12px;
+    }
+
+    .detail-section h4 {
+      color: white;
+      margin-bottom: 12px;
+      font-size: 1em;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+      padding-bottom: 8px;
+    }
+
+    .detail-item {
+      display: flex;
+      margin-bottom: 8px;
+      font-size: 0.9em;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.9);
+      min-width: 100px;
+    }
+
+    .detail-value {
+      color: white;
+      word-break: break-word;
+    }
+
+    .tracking-section {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .tracking-section h4 {
+      color: white;
+      margin-bottom: 15px;
+    }
+
+    .tracking-checkboxes {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .checkbox-item label {
+      font-size: 0.95em;
+      color: white;
+      cursor: pointer;
+    }
+
+    .no-requests {
+      text-align: center;
+      padding: 60px 20px;
+      color: white;
+    }
+
+    .no-requests i {
+      font-size: 3em;
+      margin-bottom: 15px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: white;
+      font-size: 1.2em;
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        font-size: 24px;
+      }
+
+      .section-buttons {
+        flex-direction: column;
+      }
+
+      .section-btn {
+        width: 100%;
+      }
+
+      .filters {
+        grid-template-columns: 1fr;
+      }
+
+      .request-header {
+        flex-direction: column;
+      }
+
+      .request-details {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <span class="logo-icon">📚</span>
+        <span class="logo-text">PothSawiya</span>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Homepage</a></li>
+        <li><a href="#books" class="nav-link">Books</a></li>
+        <li><a href="#donate" class="nav-link">Donate</a></li>
+        <li><a href="#contact" class="nav-link">Contact Us</a></li>
+      </ul>
+
+      <!-- Hamburger Menu -->
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Navigation Menu -->
+  <div class="mobile-menu">
+    <ul class="mobile-nav-menu">
+      <li><a href="index.html" class="mobile-nav-link">Homepage</a></li>
+      <li><a href="#books" class="mobile-nav-link">Books</a></li>
+      <li><a href="#donate" class="mobile-nav-link">Donate</a></li>
+      <li><a href="#contact" class="mobile-nav-link">Contact Us</a></li>
+    </ul>
+  </div>
+
+  <div class="overlay">
+    <div class="header">📘 Admin Dashboard</div>
+
+    <div class="section-buttons">
+      <a href="donationadmin.html"><button class="section-btn active" onclick="showSection('donations')">📚 Donation Information</button></a>
+      <a href="requestadmin.html"><button class="section-btn" onclick="showSection('requests')">📖 Request Information</button></a>
+    </div>
+
+   
+
+  <!-- Footer -->
+  <footer id="contact" class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Contact Us</h4>
+        <p>Email: abhimantheekshana@gmail.com</p>
+        <p>Phone: +94725665491</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#books">Books</a></li>
+          <li><a href="#donate">Donate</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Follow Us</h4>
+        <p>📱 Social Media Links</p>
+      </div>
+    </div>
+    <p class="footer-bottom">© 2025 PothSawiya. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="styles.css">
+  >
+  <title>Request Donation Admin Panel</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    .filters {
+      padding: 30px;
+      background: #f8f9fa;
+      border-bottom: 2px solid #e9ecef;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .filter-group label {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #495057;
+      font-size: 0.9em;
+    }
+
+    .filter-group select {
+      padding: 10px;
+      border: 2px solid #dee2e6;
+      border-radius: 8px;
+      font-size: 1em;
+      background: white;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .filter-group select:focus {
+      outline: none;
+      border-color: #f5576c;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 30px;
+      background: #f8f9fa;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .stat-card h3 {
+      color: #f5576c;
+      font-size: 2em;
+      margin-bottom: 5px;
+    }
+
+    .stat-card p {
+      color: #6c757d;
+      font-size: 0.9em;
+    }
+
+    .requests-list {
+      padding: 30px;
+    }
+
+    .request-card {
+      background: white;
+      border: 2px solid #e9ecef;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 20px;
+      transition: all 0.3s;
+    }
+
+    .request-card:hover {
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+
+    .request-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .request-title {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .request-title h3 {
+      color: #212529;
+      font-size: 1.3em;
+      margin-bottom: 5px;
+    }
+
+    .request-title p {
+      color: #6c757d;
+      font-size: 0.9em;
+    }
+
+    .status-badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: 600;
+    }
+
+    .badge-fulfilled {
+      background: #d1f4e0;
+      color: #0f5132;
+    }
+
+    .badge-pending {
+      background: #fff3cd;
+      color: #664d03;
+    }
+
+    .badge-category {
+      background: #cfe2ff;
+      color: #084298;
+    }
+
+    .badge-language {
+      background: #e7d4ff;
+      color: #6610f2;
+    }
+
+    .request-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .detail-section {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .detail-section h4 {
+      color: #495057;
+      margin-bottom: 12px;
+      font-size: 1em;
+      border-bottom: 2px solid #dee2e6;
+      padding-bottom: 8px;
+    }
+
+    .detail-item {
+      display: flex;
+      margin-bottom: 8px;
+      font-size: 0.9em;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      color: #495057;
+      min-width: 100px;
+    }
+
+    .detail-value {
+      color: #212529;
+      word-break: break-word;
+    }
+
+    .tracking-section {
+      background: #fff0f3;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+
+    .tracking-section h4 {
+      color: #f5576c;
+      margin-bottom: 15px;
+    }
+
+    .tracking-checkboxes {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .checkbox-item label {
+      font-size: 0.95em;
+      color: #212529;
+      cursor: pointer;
+    }
+
+    .no-requests {
+      text-align: center;
+      padding: 60px 20px;
+      color: #6c757d;
+    }
+
+    .no-requests i {
+      font-size: 3em;
+      margin-bottom: 15px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: #f5576c;
+      font-size: 1.2em;
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 1.8em;
+      }
+
+      .filters {
+        grid-template-columns: 1fr;
+      }
+
+      .request-header {
+        flex-direction: column;
+      }
+
+      .request-details {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📖 Request Donation Admin Panel</h1>
+      <p>Track and manage book request donations</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <h3 id="totalRequests">0</h3>
+        <p>Total Requests</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="fulfilledRequests">0</h3>
+        <p>Fulfilled Requests</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="collectionPoint1">0</h3>
+        <p>At Collection Point 1</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="collectionPoint2">0</h3>
+        <p>At Collection Point 2</p>
+      </div>
+    </div>
+
+    <div class="filters">
+      <div class="filter-group">
+        <label for="districtFilter">District</label>
+        <select id="districtFilter">
+          <option value="">All Districts</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="townFilter">Town</label>
+        <select id="townFilter">
+          <option value="">All Towns</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="categoryFilter">Category</label>
+        <select id="categoryFilter">
+          <option value="">All Categories</option>
+          <option value="ol">O/L</option>
+          <option value="al">A/L</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="subjectFilter">Subject</label>
+        <select id="subjectFilter">
+          <option value="">All Subjects</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="requests-list" id="requestsList">
+      <div class="loading">Loading requests...</div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getFirestore, collection, getDocs, doc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA7couJ2N6P8Ew6bjWyBTG4CCWJ2NrtTcM",
+      authDomain: "books-3bbeb.firebaseapp.com",
+      projectId: "books-3bbeb",
+      storageBucket: "books-3bbeb.firebasestorage.app",
+      messagingSenderId: "28862274150",
+      appId: "1:28862274150:web:3de6dd399b7af41e0e6ba7",
+      measurementId: "G-BTG34BTFTM"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const districtsData = {
+      Colombo: ["Colombo", "Negombo", "Ja-Ela", "Wattala", "Attanagalla"],
+      Gampaha: ["Gampaha", "Negombo", "Ja-Ela", "Kelaniya", "Peliyagoda"],
+      Kalutara: ["Kalutara", "Panadura", "Beruwala", "Aluthgama", "Matugama"],
+      Kandy: ["Kandy", "Peradeniya", "Gampola", "Nawalapitiya", "Akurana"],
+      Matara: ["Matara", "Weligama", "Mirissa", "Atuwara", "Hakmana"],
+      Galle: ["Galle", "Unawatuna", "Koggala", "Thalpe", "Benthota"],
+      Ampara: ["Ampara", "Kalmunai", "Akkaraipattu", "Pottuvil", "Sammanthurai"],
+      Trincomalee: ["Trincomalee", "Kinniya", "Kuchchaveli", "Mutur", "China Bay"],
+      Batticaloa: ["Batticaloa", "Kalkudah", "Kallady", "Eravur", "Porativupattu"],
+      Anuradhapura: ["Anuradhapura", "Kekirawa", "Medawachchiya", "Nuwara Wewa", "Eppawala"],
+      Polonnaruwa: ["Polonnaruwa", "Kaduruwela", "Habarana", "Medirigiriya", "Thabuttegama"],
+      Badulla: ["Badulla", "Bandarawela", "Haputale", "Diyatalawa", "Welimada"],
+      Monaragala: ["Monaragala", "Bibile", "Buttala", "Madulla", "Kataragama"],
+      Ratnapura: ["Ratnapura", "Balangoda", "Eheliyagoda", "Pelmadulla", "Kalawana"],
+      Kegalle: ["Kegalle", "Mawanella", "Rambukkana", "Warakapola", "Kitulgala"],
+      "Nuwara Eliya": ["Nuwara Eliya", "Kandy", "Peradeniya", "Ambewela", "Pussellawa"],
+      Kurunegala: ["Kurunegala", "Warapitiya", "Kuliyapitiya", "Ibbagamuwa", "Nikaweratiya"],
+      Puttalam: ["Puttalam", "Chilaw", "Nattandiya", "Wennappuwa", "Lankanida"],
+      Mullaittivu: ["Mullaittivu", "Mullaitivu", "Oddusuddan", "Nanthikadal", "Chundikulam"],
+      Jaffna: ["Jaffna", "Mullaitivu", "Nallur", "Chavakacheri", "Kopay"],
+    };
+
+    const olSubjects = ["Sinhala", "Tamil", "English", "Mathematics", "Science", "History", "Civic Education", "Religion (Buddhism)", "Religion (Christianity)", "Religion (Hinduism)", "Religion (Islam)", "Second Language - Sinhala", "Second Language - Tamil", "Business & Accounting", "Economics", "Commerce Studies", "ICT", "Agriculture", "Home Science", "Health & Physical Education", "Art", "Music", "Drama & Theatre", "Literature - English", "Literature - Sinhala", "Literature - Tamil", "French", "German", "Japanese", "Hindi", "Design & Construction Technology", "Engineering Technology"];
+
+    const alSubjects = ["Physics", "Chemistry", "Biology", "Combined Mathematics", "Higher Mathematics", "Agricultural Science", "ICT", "Business Studies", "Accounting", "Economics", "Business Statistics", "Geography", "Political Science", "History", "Logic & Scientific Method", "Sinhala", "Tamil", "English", "Pali", "Sanskrit", "Arabic", "Hindi", "Japanese", "Chinese", "Buddhism", "Hinduism", "Islam", "Christianity", "Home Economics", "Art", "Music", "Drama & Performing Arts", "Communication & Media Studies", "Civil Technology", "Mechanical Technology", "Electrical Technology", "Electronic Technology", "Food Technology", "Bio-resource Technology", "Bio-systems Technology"];
+
+    let allRequests = [];
+    let allDonations = [];
+
+    function initializeFilters() {
+      const districtFilter = document.getElementById('districtFilter');
+      Object.keys(districtsData).forEach(district => {
+        const option = document.createElement('option');
+        option.value = district;
+        option.textContent = district;
+        districtFilter.appendChild(option);
+      });
+
+      districtFilter.addEventListener('change', (e) => {
+        const townFilter = document.getElementById('townFilter');
+        townFilter.innerHTML = '<option value="">All Towns</option>';
+        if (e.target.value) {
+          districtsData[e.target.value].forEach(town => {
+            const option = document.createElement('option');
+            option.value = town;
+            option.textContent = town;
+            townFilter.appendChild(option);
+          });
+        }
+        filterRequests();
+      });
+
+      const categoryFilter = document.getElementById('categoryFilter');
+      categoryFilter.addEventListener('change', () => {
+        updateSubjectFilter();
+        filterRequests();
+      });
+
+      document.getElementById('townFilter').addEventListener('change', filterRequests);
+      document.getElementById('subjectFilter').addEventListener('change', filterRequests);
+    }
+
+    function updateSubjectFilter() {
+      const category = document.getElementById('categoryFilter').value;
+      const subjectFilter = document.getElementById('subjectFilter');
+      subjectFilter.innerHTML = '<option value="">All Subjects</option>';
+
+      const subjects = category === 'ol' ? olSubjects : category === 'al' ? alSubjects : [...olSubjects, ...alSubjects];
+      subjects.forEach(subject => {
+        const option = document.createElement('option');
+        option.value = subject;
+        option.textContent = subject;
+        subjectFilter.appendChild(option);
+      });
+    }
+
+    async function loadData() {
+      try {
+        const requestsSnapshot = await getDocs(collection(db, 'requestfeed'));
+        allRequests = requestsSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+
+        const donationsSnapshot = await getDocs(collection(db, 'requestdonation'));
+        allDonations = donationsSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+
+        displayRequests(allRequests);
+        updateStats();
+      } catch (error) {
+        console.error('Error loading data:', error);
+        document.getElementById('requestsList').innerHTML = '<div class="no-requests"><p>Error loading requests. Please check Firebase configuration.</p></div>';
+      }
+    }
+
+    function updateStats() {
+      const fulfilled = allRequests.filter(r => r.fulfilled).length;
+      const cp1 = allRequests.filter(r => r.collectionPoint1).length;
+      const cp2 = allRequests.filter(r => r.collectionPoint2).length;
+
+      document.getElementById('totalRequests').textContent = allRequests.length;
+      document.getElementById('fulfilledRequests').textContent = fulfilled;
+      document.getElementById('collectionPoint1').textContent = cp1;
+      document.getElementById('collectionPoint2').textContent = cp2;
+    }
+
+    function filterRequests() {
+      const district = document.getElementById('districtFilter').value;
+      const town = document.getElementById('townFilter').value;
+      const category = document.getElementById('categoryFilter').value;
+      const subject = document.getElementById('subjectFilter').value;
+
+      const filtered = allRequests.filter(request => {
+        if (district && request.district !== district) return false;
+        if (town && request.town !== town) return false;
+        if (category && request.category !== category) return false;
+        if (subject && request.subject !== subject) return false;
+        return true;
+      });
+
+      displayRequests(filtered);
+    }
+
+    function displayRequests(requests) {
+      const container = document.getElementById('requestsList');
+      
+      if (requests.length === 0) {
+        container.innerHTML = '<div class="no-requests"><p>📭</p><p>No requests found</p></div>';
+        return;
+      }
+
+      container.innerHTML = requests.map(request => {
+        const donation = allDonations.find(d => d.requestId === request.id);
+        return createRequestCard(request, donation);
+      }).join('');
+
+      requests.forEach(request => {
+        const cp1Checkbox = document.getElementById(`cp1-${request.id}`);
+        const cp2Checkbox = document.getElementById(`cp2-${request.id}`);
+
+        if (cp1Checkbox) {
+          cp1Checkbox.addEventListener('change', (e) => updateCollectionPoint(request.id, 'collectionPoint1', e.target.checked));
+        }
+        if (cp2Checkbox) {
+          cp2Checkbox.addEventListener('change', (e) => updateCollectionPoint(request.id, 'collectionPoint2', e.target.checked));
+        }
+      });
+    }
+
+    function createRequestCard(request, donation) {
+      const timestamp = request.timestamp?.toDate ? request.timestamp.toDate().toLocaleString() : 'N/A';
+      const donationTime = donation?.createdAt?.toDate ? donation.createdAt.toDate().toLocaleString() : 'N/A';
+      
+      return `
+        <div class="request-card">
+          <div class="request-header">
+            <div class="request-title">
+              <h3>${request.bookTitle || 'Untitled Book'}</h3>
+              <p>Requested by ${request.name || 'Unknown'}</p>
+            </div>
+            <div class="status-badges">
+              ${request.fulfilled ? '<span class="badge badge-fulfilled">Fulfilled</span>' : '<span class="badge badge-pending">Pending</span>'}
+              ${request.category ? `<span class="badge badge-category">${request.category.toUpperCase()}</span>` : ''}
+              ${request.language ? `<span class="badge badge-language">${request.language}</span>` : ''}
+            </div>
+          </div>
+
+          <div class="request-details">
+            <div class="detail-section">
+              <h4>Requester Information</h4>
+              <div class="detail-item">
+                <span class="detail-label">Name:</span>
+                <span class="detail-value">${request.name || 'N/A'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">WhatsApp:</span>
+                <span class="detail-value">${request.whatsapp || 'N/A'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">NIC:</span>
+                <span class="detail-value">${request.nic || 'N/A'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">District:</span>
+                <span class="detail-value">${request.district || 'N/A'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Town:</span>
+                <span class="detail-value">${request.town || 'N/A'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Subject:</span>
+                <span class="detail-value">${request.subject || 'N/A'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Upvotes:</span>
+                <span class="detail-value">${request.upvotes || 0}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Requested:</span>
+                <span class="detail-value">${timestamp}</span>
+              </div>
+            </div>
+
+            ${donation ? `
+            <div class="detail-section">
+              <h4>Donor Information</h4>
+              <div class="detail-item">
+                <span class="detail-label">District:</span>
+                <span class="detail-value">${donation.district || 'N/A'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Town:</span>
+                <span class="detail-value">${donation.town || 'N/A'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Note:</span>
+                <span class="detail-value">${donation.note || 'N/A'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Donated:</span>
+                <span class="detail-value">${donationTime}</span>
+              </div>
+            </div>
+            ` : '<div class="detail-section"><h4>Donor Information</h4><p>No donation yet</p></div>'}
+          </div>
+
+          <div class="tracking-section">
+            <h4>Collection Tracking</h4>
+            <div class="tracking-checkboxes">
+              <div class="checkbox-item">
+                <input type="checkbox" id="cp1-${request.id}" ${request.collectionPoint1 ? 'checked' : ''}>
+                <label for="cp1-${request.id}">Received at Collection Point 1</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="cp2-${request.id}" ${request.collectionPoint2 ? 'checked' : ''}>
+                <label for="cp2-${request.id}">Received at Collection Point 2</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function updateCollectionPoint(requestId, field, value) {
+      try {
+        const requestRef = doc(db, 'requestfeed', requestId);
+        await updateDoc(requestRef, { [field]: value });
+        
+        const requestIndex = allRequests.findIndex(r => r.id === requestId);
+        if (requestIndex !== -1) {
+          allRequests[requestIndex][field] = value;
+        }
+        updateStats();
+      } catch (error) {
+        console.error('Error updating collection point:', error);
+        alert('Failed to update. Please try again.');
+      }
+    }
+
+    initializeFilters();
+    loadData();
+  </script>
+</body>
+</html>

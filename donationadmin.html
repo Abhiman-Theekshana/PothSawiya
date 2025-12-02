@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donation Admin Panel</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    .filters {
+      padding: 30px;
+      background: #f8f9fa;
+      border-bottom: 2px solid #e9ecef;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .filter-group label {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #495057;
+      font-size: 0.9em;
+    }
+
+    .filter-group select {
+      padding: 10px;
+      border: 2px solid #dee2e6;
+      border-radius: 8px;
+      font-size: 1em;
+      background: white;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .filter-group select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 30px;
+      background: #f8f9fa;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .stat-card h3 {
+      color: #667eea;
+      font-size: 2em;
+      margin-bottom: 5px;
+    }
+
+    .stat-card p {
+      color: #6c757d;
+      font-size: 0.9em;
+    }
+
+    .donations-list {
+      padding: 30px;
+    }
+
+    .donation-card {
+      background: white;
+      border: 2px solid #e9ecef;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 20px;
+      transition: all 0.3s;
+    }
+
+    .donation-card:hover {
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+
+    .donation-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .donation-title {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .donation-title h3 {
+      color: #212529;
+      font-size: 1.3em;
+      margin-bottom: 5px;
+    }
+
+    .donation-title p {
+      color: #6c757d;
+      font-size: 0.9em;
+    }
+
+    .status-badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: 600;
+    }
+
+    .badge-fulfilled {
+      background: #d1f4e0;
+      color: #0f5132;
+    }
+
+    .badge-category {
+      background: #cfe2ff;
+      color: #084298;
+    }
+
+    .badge-language {
+      background: #fff3cd;
+      color: #664d03;
+    }
+
+    .donation-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .detail-section {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .detail-section h4 {
+      color: #495057;
+      margin-bottom: 12px;
+      font-size: 1em;
+      border-bottom: 2px solid #dee2e6;
+      padding-bottom: 8px;
+    }
+
+    .detail-item {
+      display: flex;
+      margin-bottom: 8px;
+      font-size: 0.9em;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      color: #495057;
+      min-width: 100px;
+    }
+
+    .detail-value {
+      color: #212529;
+    }
+
+    .tracking-section {
+      background: #e7f3ff;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+
+    .tracking-section h4 {
+      color: #0c63e4;
+      margin-bottom: 15px;
+    }
+
+    .tracking-checkboxes {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .checkbox-item label {
+      font-size: 0.95em;
+      color: #212529;
+      cursor: pointer;
+    }
+
+    .no-donations {
+      text-align: center;
+      padding: 60px 20px;
+      color: #6c757d;
+    }
+
+    .no-donations i {
+      font-size: 3em;
+      margin-bottom: 15px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: #667eea;
+      font-size: 1.2em;
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 1.8em;
+      }
+
+      .filters {
+        grid-template-columns: 1fr;
+      }
+
+      .donation-header {
+        flex-direction: column;
+      }
+
+      .donation-details {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📚 Donation Admin Panel</h1>
+      <p>Track and manage book donations</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <h3 id="totalDonations">0</h3>
+        <p>Total Donations</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="fulfilledDonations">0</h3>
+        <p>Fulfilled Donations</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="collectionPoint1">0</h3>
+        <p>At Collection Point 1</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="collectionPoint2">0</h3>
+        <p>At Collection Point 2</p>
+      </div>
+    </div>
+
+    <div class="filters">
+      <div class="filter-group">
+        <label for="districtFilter">District</label>
+        <select id="districtFilter">
+          <option value="">All Districts</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="townFilter">Town</label>
+        <select id="townFilter">
+          <option value="">All Towns</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="categoryFilter">Category</label>
+        <select id="categoryFilter">
+          <option value="">All Categories</option>
+          <option value="ol">O/L</option>
+          <option value="al">A/L</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="subjectFilter">Subject</label>
+        <select id="subjectFilter">
+          <option value="">All Subjects</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="donations-list" id="donationsList">
+      <div class="loading">Loading donations...</div>
+    </div>
+  </div>
+
+  <script type="module">
+    // Firebase configuration - REPLACE WITH YOUR CONFIG
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getFirestore, collection, getDocs, doc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA7couJ2N6P8Ew6bjWyBTG4CCWJ2NrtTcM",
+      authDomain: "books-3bbeb.firebaseapp.com",
+      projectId: "books-3bbeb",
+      storageBucket: "books-3bbeb.firebasestorage.app",
+      messagingSenderId: "28862274150",
+      appId: "1:28862274150:web:3de6dd399b7af41e0e6ba7",
+      measurementId: "G-BTG34BTFTM"
+    };
+    
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const districtsData = {
+      Colombo: ["Colombo", "Negombo", "Ja-Ela", "Wattala", "Attanagalla"],
+      Gampaha: ["Gampaha", "Negombo", "Ja-Ela", "Kelaniya", "Peliyagoda"],
+      Kalutara: ["Kalutara", "Panadura", "Beruwala", "Aluthgama", "Matugama"],
+      Kandy: ["Kandy", "Peradeniya", "Gampola", "Nawalapitiya", "Akurana"],
+      Matara: ["Matara", "Weligama", "Mirissa", "Atuwara", "Hakmana"],
+      Galle: ["Galle", "Unawatuna", "Koggala", "Thalpe", "Benthota"],
+      Ampara: ["Ampara", "Kalmunai", "Akkaraipattu", "Pottuvil", "Sammanthurai"],
+      Trincomalee: ["Trincomalee", "Kinniya", "Kuchchaveli", "Mutur", "China Bay"],
+      Batticaloa: ["Batticaloa", "Kalkudah", "Kallady", "Eravur", "Porativupattu"],
+      Anuradhapura: ["Anuradhapura", "Kekirawa", "Medawachchiya", "Nuwara Wewa", "Eppawala"],
+      Polonnaruwa: ["Polonnaruwa", "Kaduruwela", "Habarana", "Medirigiriya", "Thabuttegama"],
+      Badulla: ["Badulla", "Bandarawela", "Haputale", "Diyatalawa", "Welimada"],
+      Monaragala: ["Monaragala", "Bibile", "Buttala", "Madulla", "Kataragama"],
+      Ratnapura: ["Ratnapura", "Balangoda", "Eheliyagoda", "Pelmadulla", "Kalawana"],
+      Kegalle: ["Kegalle", "Mawanella", "Rambukkana", "Warakapola", "Kitulgala"],
+      "Nuwara Eliya": ["Nuwara Eliya", "Kandy", "Peradeniya", "Ambewela", "Pussellawa"],
+      Kurunegala: ["Kurunegala", "Warapitiya", "Kuliyapitiya", "Ibbagamuwa", "Nikaweratiya"],
+      Puttalam: ["Puttalam", "Chilaw", "Nattandiya", "Wennappuwa", "Lankanida"],
+      Mullaittivu: ["Mullaittivu", "Mullaitivu", "Oddusuddan", "Nanthikadal", "Chundikulam"],
+      Jaffna: ["Jaffna", "Mullaitivu", "Nallur", "Chavakacheri", "Kopay"],
+    };
+
+    const olSubjects = ["Sinhala", "Tamil", "English", "Mathematics", "Science", "History", "Civic Education", "Religion (Buddhism)", "Religion (Christianity)", "Religion (Hinduism)", "Religion (Islam)", "Second Language - Sinhala", "Second Language - Tamil", "Business & Accounting", "Economics", "Commerce Studies", "ICT", "Agriculture", "Home Science", "Health & Physical Education", "Art", "Music", "Drama & Theatre", "Literature - English", "Literature - Sinhala", "Literature - Tamil", "French", "German", "Japanese", "Hindi", "Design & Construction Technology", "Engineering Technology"];
+
+    const alSubjects = ["Physics", "Chemistry", "Biology", "Combined Mathematics", "Higher Mathematics", "Agricultural Science", "ICT", "Business Studies", "Accounting", "Economics", "Business Statistics", "Geography", "Political Science", "History", "Logic & Scientific Method", "Sinhala", "Tamil", "English", "Pali", "Sanskrit", "Arabic", "Hindi", "Japanese", "Chinese", "Buddhism", "Hinduism", "Islam", "Christianity", "Home Economics", "Art", "Music", "Drama & Performing Arts", "Communication & Media Studies", "Civil Technology", "Mechanical Technology", "Electrical Technology", "Electronic Technology", "Food Technology", "Bio-resource Technology", "Bio-systems Technology"];
+
+    let allDonations = [];
+    let allRequests = [];
+
+    // Initialize filters
+    function initializeFilters() {
+      const districtFilter = document.getElementById('districtFilter');
+      Object.keys(districtsData).forEach(district => {
+        const option = document.createElement('option');
+        option.value = district;
+        option.textContent = district;
+        districtFilter.appendChild(option);
+      });
+
+      districtFilter.addEventListener('change', (e) => {
+        const townFilter = document.getElementById('townFilter');
+        townFilter.innerHTML = '<option value="">All Towns</option>';
+        if (e.target.value) {
+          districtsData[e.target.value].forEach(town => {
+            const option = document.createElement('option');
+            option.value = town;
+            option.textContent = town;
+            townFilter.appendChild(option);
+          });
+        }
+        filterDonations();
+      });
+
+      const categoryFilter = document.getElementById('categoryFilter');
+      categoryFilter.addEventListener('change', () => {
+        updateSubjectFilter();
+        filterDonations();
+      });
+
+      document.getElementById('townFilter').addEventListener('change', filterDonations);
+      document.getElementById('subjectFilter').addEventListener('change', filterDonations);
+    }
+
+    function updateSubjectFilter() {
+      const category = document.getElementById('categoryFilter').value;
+      const subjectFilter = document.getElementById('subjectFilter');
+      subjectFilter.innerHTML = '<option value="">All Subjects</option>';
+
+      const subjects = category === 'ol' ? olSubjects : category === 'al' ? alSubjects : [...olSubjects, ...alSubjects];
+      subjects.forEach(subject => {
+        const option = document.createElement('option');
+        option.value = subject;
+        option.textContent = subject;
+        subjectFilter.appendChild(option);
+      });
+    }
+
+    // Load donations and requests
+    async function loadData() {
+      try {
+        const donationsSnapshot = await getDocs(collection(db, 'donations'));
+        allDonations = donationsSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+
+        const requestsSnapshot = await getDocs(collection(db, 'requests'));
+        allRequests = requestsSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+
+        displayDonations(allDonations);
+        updateStats();
+      } catch (error) {
+        console.error('Error loading data:', error);
+        document.getElementById('donationsList').innerHTML = '<div class="no-donations"><p>Error loading donations. Please check Firebase configuration.</p></div>';
+      }
+    }
+
+    function updateStats() {
+      const fulfilled = allDonations.filter(d => d.fulfilled).length;
+      const cp1 = allDonations.filter(d => d.collectionPoint1).length;
+      const cp2 = allDonations.filter(d => d.collectionPoint2).length;
+
+      document.getElementById('totalDonations').textContent = allDonations.length;
+      document.getElementById('fulfilledDonations').textContent = fulfilled;
+      document.getElementById('collectionPoint1').textContent = cp1;
+      document.getElementById('collectionPoint2').textContent = cp2;
+    }
+
+    function filterDonations() {
+      const district = document.getElementById('districtFilter').value;
+      const town = document.getElementById('townFilter').value;
+      const category = document.getElementById('categoryFilter').value;
+      const subject = document.getElementById('subjectFilter').value;
+
+      const filtered = allDonations.filter(donation => {
+        if (district && donation.location?.district !== district) return false;
+        if (town && donation.location?.town !== town) return false;
+        if (category && donation.s?.category !== category) return false;
+        if (subject && donation.s?.subject !== subject) return false;
+        return true;
+      });
+
+      displayDonations(filtered);
+    }
+
+    function displayDonations(donations) {
+      const container = document.getElementById('donationsList');
+      
+      if (donations.length === 0) {
+        container.innerHTML = '<div class="no-donations"><p>📭</p><p>No donations found</p></div>';
+        return;
+      }
+
+      container.innerHTML = donations.map(donation => {
+        const request = allRequests.find(r => r.donationId === donation.id);
+        return createDonationCard(donation, request);
+      }).join('');
+
+      // Add event listeners for checkboxes
+      donations.forEach(donation => {
+        const cp1Checkbox = document.getElementById(`cp1-${donation.id}`);
+        const cp2Checkbox = document.getElementById(`cp2-${donation.id}`);
+
+        if (cp1Checkbox) {
+          cp1Checkbox.addEventListener('change', (e) => updateCollectionPoint(donation.id, 'collectionPoint1', e.target.checked));
+        }
+        if (cp2Checkbox) {
+          cp2Checkbox.addEventListener('change', (e) => updateCollectionPoint(donation.id, 'collectionPoint2', e.target.checked));
+        }
+      });
+    }
+
+    function createDonationCard(donation, request) {
+      const timestamp = donation.timestamp?.toDate ? donation.timestamp.toDate().toLocaleString() : 'N/A';
+      
+      return `
+        <div class="donation-card">
+          <div class="donation-header">
+            <div class="donation-title">
+              <h3>${donation.book?.title || 'Untitled'}</h3>
+              <p>${donation.book?.description || 'No description'}</p>
+            </div>
+            <div class="status-badges">
+              ${donation.fulfilled ? '<span class="badge badge-fulfilled">Fulfilled</span>' : ''}
+              ${donation.s?.category ? `<span class="badge badge-category">${donation.s.category.toUpperCase()}</span>` : ''}
+              ${donation.s?.language ? `<span class="badge badge-language">${donation.s.language}</span>` : ''}
+            </div>
+          </div>
+
+          <div class="donation-details">
+            <div class="detail-section">
+              <h4>Donor Information</h4>
+              <div class="detail-item">
+                <span class="detail-label">Name:</span>
+                <span class="detail-value">${donation.personal?.name || 'N/A'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">WhatsApp:</span>
+                <span class="detail-value">${donation.personal?.whatsapp || 'N/A'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">District:</span>
+                <span class="detail-value">${donation.location?.district || 'N/A'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Town:</span>
+                <span class="detail-value">${donation.location?.town || 'N/A'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Subject:</span>
+                <span class="detail-value">${donation.s?.subject || 'N/A'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Date:</span>
+                <span class="detail-value">${timestamp}</span>
+              </div>
+            </div>
+
+            ${request ? `
+            <div class="detail-section">
+              <h4>Requester Information</h4>
+              <div class="detail-item">
+                <span class="detail-label">Name:</span>
+                <span class="detail-value">${request.name || 'N/A'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Phone:</span>
+                <span class="detail-value">${request.phone || 'N/A'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">NIC:</span>
+                <span class="detail-value">${request.nic || 'N/A'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">District:</span>
+                <span class="detail-value">${request.district || 'N/A'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Town:</span>
+                <span class="detail-value">${request.town || 'N/A'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Address:</span>
+                <span class="detail-value">${request.address || 'N/A'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Note:</span>
+                <span class="detail-value">${request.note || 'N/A'}</span>
+              </div>
+            </div>
+            ` : '<div class="detail-section"><h4>Requester Information</h4><p>No request yet</p></div>'}
+          </div>
+
+          <div class="tracking-section">
+            <h4>Collection Tracking</h4>
+            <div class="tracking-checkboxes">
+              <div class="checkbox-item">
+                <input type="checkbox" id="cp1-${donation.id}" ${donation.collectionPoint1 ? 'checked' : ''}>
+                <label for="cp1-${donation.id}">Received at Collection Point 1</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="cp2-${donation.id}" ${donation.collectionPoint2 ? 'checked' : ''}>
+                <label for="cp2-${donation.id}">Received at Collection Point 2</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function updateCollectionPoint(donationId, field, value) {
+      try {
+        const donationRef = doc(db, 'donations', donationId);
+        await updateDoc(donationRef, { [field]: value });
+        
+        const donationIndex = allDonations.findIndex(d => d.id === donationId);
+        if (donationIndex !== -1) {
+          allDonations[donationIndex][field] = value;
+        }
+        updateStats();
+      } catch (error) {
+        console.error('Error updating collection point:', error);
+        alert('Failed to update. Please try again.');
+      }
+    }
+
+    // Initialize
+    initializeFilters();
+    loadData();
+  </script>
+</body>
+</html>

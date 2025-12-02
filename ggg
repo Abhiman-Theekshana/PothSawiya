@@ -9,6 +9,127 @@
 </head>
 
 <body>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+            background: url('admin-bg.jpg') no-repeat center center/cover;
+            backdrop-filter: blur(5px);
+        }
+
+        .overlay {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            height: 100vh;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .header {
+            color: white;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        select {
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 12px;
+            border: none;
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            backdrop-filter: blur(5px);
+        }
+
+        select option {
+            color: black;
+        }
+
+        .donation-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: white;
+        }
+
+        .donation-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .info {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 5px 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            font-size: 13px;
+            margin-right: 8px;
+        }
+
+        .btn-row {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 14px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .btn-point1 {
+            background: rgba(2, 184, 255, 0.7);
+            color: white;
+        }
+
+        .btn-point2 {
+            background: rgba(255, 184, 2, 0.7);
+            color: white;
+        }
+
+        .btn-view {
+            background: rgba(255, 255, 255, 0.5);
+            color: black;
+        }
+
+        .sub-box {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 12px;
+        }
+
+        .sub-item {
+            padding: 5px 0;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .sub-item:last-child {
+            border: none;
+        }
+    </style>
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="nav-container">
@@ -43,6 +164,7 @@
             <li><a href="#contact" class="mobile-nav-link">Contact Us</a></li>
         </ul>
     </div>
+    
 
 
     <!-- Footer -->
@@ -73,26 +195,49 @@
 </body>
 
 </html>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel | BookDonate.lk</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+    </style>
+</head>
+
+<body>
+
+</body>
+
+</html>
+
 <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyA7couJ2N6P8Ew6bjWyBTG4CCWJ2NrtTcM",
-    authDomain: "books-3bbeb.firebaseapp.com",
-    projectId: "books-3bbeb",
-    storageBucket: "books-3bbeb.firebasestorage.app",
-    messagingSenderId: "28862274150",
-    appId: "1:28862274150:web:3de6dd399b7af41e0e6ba7",
-    measurementId: "G-BTG34BTFTM"
-  };
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+        apiKey: "AIzaSyA7couJ2N6P8Ew6bjWyBTG4CCWJ2NrtTcM",
+        authDomain: "books-3bbeb.firebaseapp.com",
+        projectId: "books-3bbeb",
+        storageBucket: "books-3bbeb.firebasestorage.app",
+        messagingSenderId: "28862274150",
+        appId: "1:28862274150:web:3de6dd399b7af41e0e6ba7",
+        measurementId: "G-BTG34BTFTM"
+    };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
 </script>
