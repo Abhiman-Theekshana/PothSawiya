@@ -120,6 +120,12 @@
       transform: translateY(-2px);
     }
 
+    .donation-card.deleted {
+      opacity: 0.6;
+      background: #f8f9fa;
+      border-color: #dc3545;
+    }
+
     .donation-header {
       display: flex;
       justify-content: space-between;
@@ -171,6 +177,16 @@
     .badge-language {
       background: #fff3cd;
       color: #664d03;
+    }
+
+    .badge-grade {
+      background: #e0cffc;
+      color: #432874;
+    }
+
+    .badge-deleted {
+      background: #f8d7da;
+      color: #842029;
     }
 
     .donation-details {
@@ -244,6 +260,46 @@
       font-size: 0.95em;
       color: #212529;
       cursor: pointer;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-delete {
+      background: #dc3545;
+      color: white;
+    }
+
+    .btn-delete:hover {
+      background: #bb2d3b;
+    }
+
+    .btn-reupload {
+      background: #28a745;
+      color: white;
+    }
+
+    .btn-reupload:hover {
+      background: #218838;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     .no-donations {
@@ -344,7 +400,6 @@
   </div>
 
   <script type="module">
-    // Firebase configuration - REPLACE WITH YOUR CONFIG
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
     import { getFirestore, collection, getDocs, doc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
@@ -362,65 +417,32 @@
     const db = getFirestore(app);
 
     const districtsData = {
-  // Western Province
-  Colombo: ["Colombo", "Dehiwala-Mount Lavinia", "Moratuwa", "Sri Jayawardenepura Kotte", "Kolonnawa", "Kesbewa", "Maharagama", "Homagama", "Kaduwela", "Boralesgamuwa", "Piliyandala", "Nugegoda", "Kotte", "Hanwella", "Padukka", "Horana", "Ratmalana"],
-  
-  Gampaha: ["Gampaha", "Negombo", "Ja-Ela", "Kelaniya", "Peliyagoda", "Wattala", "Minuwangoda", "Katunayake", "Kadawatha", "Ragama", "Divulapitiya", "Nittambuwa", "Veyangoda", "Mirigama", "Ganemulla", "Kandana", "Kiribathgoda"],
-  
-  Kalutara: ["Kalutara", "Panadura", "Beruwala", "Aluthgama", "Matugama", "Horana", "Wadduwa", "Bandaragama", "Ingiriya", "Bulathsinhala", "Dodangoda", "Agalawatta"],
-
-  // Central Province
-  Kandy: ["Kandy", "Peradeniya", "Gampola", "Nawalapitiya", "Katugastota", "Akurana", "Kadugannawa", "Pilimatalawa", "Wattegama", "Gelioya", "Daulagala", "Kundasale"],
-  
-  Matale: ["Matale", "Dambulla", "Sigiriya", "Galewela", "Ukuwela", "Rattota", "Naula", "Pallepola", "Yatawatta"],
-  
-  "Nuwara Eliya": ["Nuwara Eliya", "Hatton", "Nuwara Eliya Town", "Talawakelle", "Ambewela", "Pussellawa", "Ginigathena", "Walapane", "Kotmale", "Rikillagaskada"],
-
-  // Southern Province
-  Galle: ["Galle", "Hikkaduwa", "Ambalangoda", "Elpitiya", "Bentota", "Balapitiya", "Koggala", "Ahangama", "Unawatuna", "Baddegama", "Habaraduwa", "Karapitiya", "Imaduwa", "Yakkalamulla"],
-  
-  Matara: ["Matara", "Weligama", "Mirissa", "Dikwella", "Hakmana", "Akuressa", "Devinuwara", "Deniyaya", "Kekanadura", "Kamburugamuwa", "Athuraliya"],
-  
-  Hambantota: ["Hambantota", "Tangalle", "Tissamaharama", "Ambalantota", "Beliatta", "Weeraketiya", "Suriyawewa", "Middeniya", "Walasmulla", "Angunakolapelessa", "Katuwana", "Lunugamvehera", "Hambantota Town"],
-
-  // Northern Province
-  Jaffna: ["Jaffna", "Nallur", "Chavakachcheri", "Point Pedro", "Chankanai", "Karainagar", "Valvettithurai", "Velanai", "Kayts", "Kopay", "Uduvil", "Tellippalai", "Sandilipay"],
-  
-  Kilinochchi: ["Kilinochchi", "Paranthan", "Poonakary", "Pallai", "Karachchi"],
-  
-  Mannar: ["Mannar", "Nanattan", "Madhu", "Pesalai", "Thalaimannar", "Murunkan"],
-  
-  Vavuniya: ["Vavuniya", "Nedunkerni", "Omanthai", "Chettikulam", "Vavuniya South"],
-  
-  Mullaitivu: ["Mullaitivu", "Oddusuddan", "Puthukkudiyiruppu", "Mankulam", "Maritimepattu", "Thunukkai", "Welioya"],
-
-  // Eastern Province
-  Trincomalee: ["Trincomalee", "Kinniya", "Kuchchaveli", "Mutur", "Nilaveli", "Kantale", "Seruvila", "Gomarankadawala", "China Bay", "Tampalakamam"],
-  
-  Batticaloa: ["Batticaloa", "Kalkudah", "Valachchenai", "Eravur", "Chenkaladi", "Kokkaddicholai", "Kattankudy", "Kaluwanchikudy", "Araipattai"],
-  
-  Ampara: ["Ampara", "Kalmunai", "Akkaraipattu", "Sammanthurai", "Pottuvil", "Sainthamaruthu", "Nintavur", "Addalachchenai", "Uhana", "Mahaoya", "Damana", "Padiyatalawa"],
-
-  // North Central Province
-  Anuradhapura: ["Anuradhapura", "Kekirawa", "Medawachchiya", "Tambuttegama", "Eppawala", "Galenbindunuwewa", "Mihintale", "Nochchiyagama", "Kahatagasdigiliya", "Thalawa", "Galnewa"],
-  
-  Polonnaruwa: ["Polonnaruwa", "Kaduruwela", "Hingurakgoda", "Medirigiriya", "Dimbulagala", "Bakamuna", "Jayanthipura", "Aralaganvila", "Welikanda"],
-
-  // Uva Province
-  Badulla: ["Badulla", "Bandarawela", "Haputale", "Welimada", "Mahiyanganaya", "Diyatalawa", "Ella", "Passara", "Hali Ela", "Kandaketiya", "Girandurukotte", "Meegahakivula"],
-  
-  Monaragala: ["Monaragala", "Bibile", "Wellawaya", "Buttala", "Katharagama", "Siyambalanduwa", "Medagama", "Thanamalvila", "Madulla", "Okkampitiya"],
-
-  // Sabaragamuwa Province
-  Ratnapura: ["Ratnapura", "Embilipitiya", "Balangoda", "Pelmadulla", "Eheliyagoda", "Kuruwita", "Kahawatta", "Rakwana", "Godakawela", "Kalawana", "Opanayaka", "Nivithigala"],
-  
-  Kegalle: ["Kegalle", "Mawanella", "Rambukkana", "Warakapola", "Dehiowita", "Galigamuwa", "Ruwanwella", "Yatiyantota", "Bulathkohupitiya", "Aranayaka", "Deraniyagala"],
-
-  // North Western Province
-  Kurunegala: ["Kurunegala", "Kuliyapitiya", "Polgahawela", "Pannala", "Narammala", "Wariyapola", "Mawathagama", "Nikaweratiya", "Giriulla", "Alawwa", "Bingiriya", "Ibbagamuwa", "Dodangaslanda", "Galgamuwa"],
-  
-  Puttalam: ["Puttalam", "Chilaw", "Nattandiya", "Wennappuwa", "Anamaduwa", "Marawila", "Dankotuwa", "Pallama", "Mundel", "Madampe", "Kalpitiya", "Lunuwila"]
-};
+      Colombo: ["Colombo", "Dehiwala-Mount Lavinia", "Moratuwa", "Sri Jayawardenepura Kotte", "Kolonnawa", "Kesbewa", "Maharagama", "Homagama", "Kaduwela", "Boralesgamuwa", "Piliyandala", "Nugegoda", "Kotte", "Hanwella", "Padukka", "Horana", "Ratmalana"],
+      Gampaha: ["Gampaha", "Negombo", "Ja-Ela", "Kelaniya", "Peliyagoda", "Wattala", "Minuwangoda", "Katunayake", "Kadawatha", "Ragama", "Divulapitiya", "Nittambuwa", "Veyangoda", "Mirigama", "Ganemulla", "Kandana", "Kiribathgoda"],
+      Kalutara: ["Kalutara", "Panadura", "Beruwala", "Aluthgama", "Matugama", "Horana", "Wadduwa", "Bandaragama", "Ingiriya", "Bulathsinhala", "Dodangoda", "Agalawatta"],
+      Kandy: ["Kandy", "Peradeniya", "Gampola", "Nawalapitiya", "Katugastota", "Akurana", "Kadugannawa", "Pilimatalawa", "Wattegama", "Gelioya", "Daulagala", "Kundasale"],
+      Matale: ["Matale", "Dambulla", "Sigiriya", "Galewela", "Ukuwela", "Rattota", "Naula", "Pallepola", "Yatawatta"],
+      "Nuwara Eliya": ["Nuwara Eliya", "Hatton", "Nuwara Eliya Town", "Talawakelle", "Ambewela", "Pussellawa", "Ginigathena", "Walapane", "Kotmale", "Rikillagaskada"],
+      Galle: ["Galle", "Hikkaduwa", "Ambalangoda", "Elpitiya", "Bentota", "Balapitiya", "Koggala", "Ahangama", "Unawatuna", "Baddegama", "Habaraduwa", "Karapitiya", "Imaduwa", "Yakkalamulla"],
+      Matara: ["Matara", "Weligama", "Mirissa", "Dikwella", "Hakmana", "Akuressa", "Devinuwara", "Deniyaya", "Kekanadura", "Kamburugamuwa", "Athuraliya"],
+      Hambantota: ["Hambantota", "Tangalle", "Tissamaharama", "Ambalantota", "Beliatta", "Weeraketiya", "Suriyawewa", "Middeniya", "Walasmulla", "Angunakolapelessa", "Katuwana", "Lunugamvehera", "Hambantota Town"],
+      Jaffna: ["Jaffna", "Nallur", "Chavakachcheri", "Point Pedro", "Chankanai", "Karainagar", "Valvettithurai", "Velanai", "Kayts", "Kopay", "Uduvil", "Tellippalai", "Sandilipay"],
+      Kilinochchi: ["Kilinochchi", "Paranthan", "Poonakary", "Pallai", "Karachchi"],
+      Mannar: ["Mannar", "Nanattan", "Madhu", "Pesalai", "Thalaimannar", "Murunkan"],
+      Vavuniya: ["Vavuniya", "Nedunkerni", "Omanthai", "Chettikulam", "Vavuniya South"],
+      Mullaitivu: ["Mullaitivu", "Oddusuddan", "Puthukkudiyiruppu", "Mankulam", "Maritimepattu", "Thunukkai", "Welioya"],
+      Trincomalee: ["Trincomalee", "Kinniya", "Kuchchaveli", "Mutur", "Nilaveli", "Kantale", "Seruvila", "Gomarankadawala", "China Bay", "Tampalakamam"],
+      Batticaloa: ["Batticaloa", "Kalkudah", "Valachchenai", "Eravur", "Chenkaladi", "Kokkaddicholai", "Kattankudy", "Kaluwanchikudy", "Araipattai"],
+      Ampara: ["Ampara", "Kalmunai", "Akkaraipattu", "Sammanthurai", "Pottuvil", "Sainthamaruthu", "Nintavur", "Addalachchenai", "Uhana", "Mahaoya", "Damana", "Padiyatalawa"],
+      Anuradhapura: ["Anuradhapura", "Kekirawa", "Medawachchiya", "Tambuttegama", "Eppawala", "Galenbindunuwewa", "Mihintale", "Nochchiyagama", "Kahatagasdigiliya", "Thalawa", "Galnewa"],
+      Polonnaruwa: ["Polonnaruwa", "Kaduruwela", "Hingurakgoda", "Medirigiriya", "Dimbulagala", "Bakamuna", "Jayanthipura", "Aralaganvila", "Welikanda"],
+      Badulla: ["Badulla", "Bandarawela", "Haputale", "Welimada", "Mahiyanganaya", "Diyatalawa", "Ella", "Passara", "Hali Ela", "Kandaketiya", "Girandurukotte", "Meegahakivula"],
+      Monaragala: ["Monaragala", "Bibile", "Wellawaya", "Buttala", "Katharagama", "Siyambalanduwa", "Medagama", "Thanamalvila", "Madulla", "Okkampitiya"],
+      Ratnapura: ["Ratnapura", "Embilipitiya", "Balangoda", "Pelmadulla", "Eheliyagoda", "Kuruwita", "Kahawatta", "Rakwana", "Godakawela", "Kalawana", "Opanayaka", "Nivithigala"],
+      Kegalle: ["Kegalle", "Mawanella", "Rambukkana", "Warakapola", "Dehiowita", "Galigamuwa", "Ruwanwella", "Yatiyantota", "Bulathkohupitiya", "Aranayaka", "Deraniyagala"],
+      Kurunegala: ["Kurunegala", "Kuliyapitiya", "Polgahawela", "Pannala", "Narammala", "Wariyapola", "Mawathagama", "Nikaweratiya", "Giriulla", "Alawwa", "Bingiriya", "Ibbagamuwa", "Dodangaslanda", "Galgamuwa"],
+      Puttalam: ["Puttalam", "Chilaw", "Nattandiya", "Wennappuwa", "Anamaduwa", "Marawila", "Dankotuwa", "Pallama", "Mundel", "Madampe", "Kalpitiya", "Lunuwila"]
+    };
 
     const olSubjects = ["Sinhala", "Tamil", "English", "Mathematics", "Science", "History", "Civic Education", "Religion (Buddhism)", "Religion (Christianity)", "Religion (Hinduism)", "Religion (Islam)", "Second Language - Sinhala", "Second Language - Tamil", "Business & Accounting", "Economics", "Commerce Studies", "ICT", "Agriculture", "Home Science", "Health & Physical Education", "Art", "Music", "Drama & Theatre", "Literature - English", "Literature - Sinhala", "Literature - Tamil", "French", "German", "Japanese", "Hindi", "Design & Construction Technology", "Engineering Technology"];
 
@@ -429,7 +451,11 @@
     let allDonations = [];
     let allRequests = [];
 
-    // Initialize filters
+    function formatGrade(gradeValue) {
+      if (!gradeValue) return "";
+      return gradeValue.replace(/grade(\d+)/, "Grade $1");
+    }
+
     function initializeFilters() {
       const districtFilter = document.getElementById('districtFilter');
       Object.keys(districtsData).forEach(district => {
@@ -477,7 +503,6 @@
       });
     }
 
-    // Load donations and requests
     async function loadData() {
       try {
         const donationsSnapshot = await getDocs(collection(db, 'donations'));
@@ -520,8 +545,8 @@
       const filtered = allDonations.filter(donation => {
         if (district && donation.location?.district !== district) return false;
         if (town && donation.location?.town !== town) return false;
-        if (category && donation.s?.category !== category) return false;
-        if (subject && donation.s?.subject !== subject) return false;
+        if (category && donation.education?.category !== category) return false;
+        if (subject && donation.education?.subject !== subject) return false;
         return true;
       });
 
@@ -532,7 +557,7 @@
       const container = document.getElementById('donationsList');
       
       if (donations.length === 0) {
-        container.innerHTML = '<div class="no-donations"><p>📭</p><p>No donations found</p></div>';
+        container.innerHTML = '<div class="no-donations"><p>🔭</p><p>No donations found</p></div>';
         return;
       }
 
@@ -541,10 +566,11 @@
         return createDonationCard(donation, request);
       }).join('');
 
-      // Add event listeners for checkboxes
       donations.forEach(donation => {
         const cp1Checkbox = document.getElementById(`cp1-${donation.id}`);
         const cp2Checkbox = document.getElementById(`cp2-${donation.id}`);
+        const deleteBtn = document.getElementById(`delete-${donation.id}`);
+        const reuploadBtn = document.getElementById(`reupload-${donation.id}`);
 
         if (cp1Checkbox) {
           cp1Checkbox.addEventListener('change', (e) => updateCollectionPoint(donation.id, 'collectionPoint1', e.target.checked));
@@ -552,23 +578,33 @@
         if (cp2Checkbox) {
           cp2Checkbox.addEventListener('change', (e) => updateCollectionPoint(donation.id, 'collectionPoint2', e.target.checked));
         }
+        if (deleteBtn) {
+          deleteBtn.addEventListener('click', () => deleteDonation(donation.id));
+        }
+        if (reuploadBtn) {
+          reuploadBtn.addEventListener('click', () => reuploadDonation(donation.id));
+        }
       });
     }
 
     function createDonationCard(donation, request) {
       const timestamp = donation.timestamp?.toDate ? donation.timestamp.toDate().toLocaleString() : 'N/A';
+      const isDeleted = donation.deletedFromFeed === true;
+      const category = donation.education?.category;
       
       return `
-        <div class="donation-card">
+        <div class="donation-card ${isDeleted ? 'deleted' : ''}">
           <div class="donation-header">
             <div class="donation-title">
               <h3>${donation.book?.title || 'Untitled'}</h3>
               <p>${donation.book?.description || 'No description'}</p>
             </div>
             <div class="status-badges">
+              ${isDeleted ? '<span class="badge badge-deleted">Deleted from Feed</span>' : ''}
               ${donation.fulfilled ? '<span class="badge badge-fulfilled">Fulfilled</span>' : ''}
-              ${donation.s?.category ? `<span class="badge badge-category">${donation.s.category.toUpperCase()}</span>` : ''}
-              ${donation.s?.language ? `<span class="badge badge-language">${donation.s.language}</span>` : ''}
+              ${category ? `<span class="badge badge-category">${category.toUpperCase()}</span>` : ''}
+              ${donation.education?.language ? `<span class="badge badge-language">${donation.education.language}</span>` : ''}
+              ${category === 'ol' && donation.education?.grade ? `<span class="badge badge-grade">${formatGrade(donation.education.grade)}</span>` : ''}
             </div>
           </div>
 
@@ -593,8 +629,14 @@
               </div>
               <div class="detail-item">
                 <span class="detail-label">Subject:</span>
-                <span class="detail-value">${donation.s?.subject || 'N/A'}</span>
+                <span class="detail-value">${donation.education?.subject || 'N/A'}</span>
               </div>
+              ${category === 'ol' && donation.education?.grade ? `
+              <div class="detail-item">
+                <span class="detail-label">Grade:</span>
+                <span class="detail-value">${formatGrade(donation.education.grade)}</span>
+              </div>
+              ` : ''}
               <div class="detail-item">
                 <span class="detail-label">Date:</span>
                 <span class="detail-value">${timestamp}</span>
@@ -648,6 +690,18 @@
                 <label for="cp2-${donation.id}">Received at Collection Point 2</label>
               </div>
             </div>
+            
+            <div class="action-buttons">
+              ${!isDeleted ? `
+                <button class="btn btn-delete" id="delete-${donation.id}">
+                  🗑️ Delete from Feed
+                </button>
+              ` : `
+                <button class="btn btn-reupload" id="reupload-${donation.id}">
+                  📤 Reupload to Feed
+                </button>
+              `}
+            </div>
           </div>
         </div>
       `;
@@ -669,7 +723,58 @@
       }
     }
 
-    // Initialize
+    async function deleteDonation(donationId) {
+      if (!confirm('Are you sure you want to delete this donation from the feed? (It will remain in the database)')) {
+        return;
+      }
+
+      try {
+        const donationRef = doc(db, 'donations', donationId);
+        await updateDoc(donationRef, { 
+          deletedFromFeed: true,
+          deletedAt: new Date().toISOString()
+        });
+        
+        const donationIndex = allDonations.findIndex(d => d.id === donationId);
+        if (donationIndex !== -1) {
+          allDonations[donationIndex].deletedFromFeed = true;
+          allDonations[donationIndex].deletedAt = new Date().toISOString();
+        }
+        
+        displayDonations(allDonations);
+        alert('Donation removed from feed successfully!');
+      } catch (error) {
+        console.error('Error deleting donation:', error);
+        alert('Failed to delete donation. Please try again.');
+      }
+    }
+
+    async function reuploadDonation(donationId) {
+      if (!confirm('Are you sure you want to reupload this donation to the feed?')) {
+        return;
+      }
+
+      try {
+        const donationRef = doc(db, 'donations', donationId);
+        await updateDoc(donationRef, { 
+          deletedFromFeed: false,
+          reuploadedAt: new Date().toISOString()
+        });
+        
+        const donationIndex = allDonations.findIndex(d => d.id === donationId);
+        if (donationIndex !== -1) {
+          allDonations[donationIndex].deletedFromFeed = false;
+          allDonations[donationIndex].reuploadedAt = new Date().toISOString();
+        }
+        
+        displayDonations(allDonations);
+        alert('Donation reuploaded to feed successfully!');
+      } catch (error) {
+        console.error('Error reuploading donation:', error);
+        alert('Failed to reupload donation. Please try again.');
+      }
+    }
+
     initializeFilters();
     loadData();
   </script>

@@ -118,6 +118,38 @@
               <span class="error-message" id="categoryError"></span>
             </div>
 
+            <!-- Grade Selection (Only for O/L) -->
+            <div class="form-group" id="gradeGroup" style="display: none;">
+              <label for="grade">Grade *</label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="grade" value="grade6">
+                  <span>Grade 6</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="grade" value="grade7">
+                  <span>Grade 7</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="grade" value="grade8">
+                  <span>Grade 8</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="grade" value="grade9">
+                  <span>Grade 9</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="grade" value="grade10">
+                  <span>Grade 10</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="grade" value="grade11">
+                  <span>Grade 11</span>
+                </label>
+              </div>
+              <span class="error-message" id="gradeError"></span>
+            </div>
+
             <div class="form-group">
               <label for="subject">Subject *</label>
               <select id="subject" name="subject" required>
@@ -254,6 +286,23 @@
       }
 
       // Collect form data
+      const category = document.querySelector('input[name="category"]:checked')?.value;
+      
+      // Build education object
+      const educationData = {
+        category: category,
+        subject: document.getElementById("subject").value,
+        language: document.querySelector('input[name="language"]:checked')?.value
+      };
+
+      // Add grade only if O/L is selected
+      if (category === "ol") {
+        const gradeRadio = document.querySelector('input[name="grade"]:checked');
+        if (gradeRadio) {
+          educationData.grade = gradeRadio.value;
+        }
+      }
+
       const formData = {
         personal: {
           name: document.getElementById("name").value,
@@ -263,11 +312,7 @@
           district: document.getElementById("district").value,
           town: document.getElementById("town").value
         },
-        s: {
-          category: document.querySelector('input[name="category"]:checked')?.value,
-          subject: document.getElementById("subject").value,
-          language: document.querySelector('input[name="language"]:checked')?.value
-        },
+        education: educationData,
         book: {
           title: title,
           description: description
@@ -285,6 +330,12 @@
         document.getElementById("successSection").classList.remove("hidden");
 
         form.reset();
+        
+        // Hide grade group after reset
+        const gradeGroup = document.getElementById("gradeGroup");
+        if (gradeGroup) {
+          gradeGroup.style.display = "none";
+        }
       } catch (error) {
         console.error("Error saving donation:", error);
         alert("There was an error submitting your donation. Please try again.");

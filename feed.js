@@ -116,8 +116,9 @@ export class Feed {
       const snapshot = await getDocs(collection(db, "donations"));
       this.donations = snapshot.docs
         .map(doc => ({ id: doc.id, ...doc.data() }))
-        .filter(d => d.s?.category === this.category)
+        .filter(d => d.education?.category === this.category)
         .filter(d => !d.fulfilled)
+        .filter(d => !d.deletedFromFeed) // Don't show deleted donations
         .sort((a, b) => (b.likes || 0) - (a.likes || 0));
 
       this.populateSortingOptions();
@@ -126,6 +127,12 @@ export class Feed {
       console.error("Failed to fetch donations:", err);
       this.feedContainer.innerHTML = `<div class="empty-state"><p>Failed to load donations.</p></div>`;
     }
+  }
+
+  formatGrade(gradeValue) {
+    if (!gradeValue) return "";
+    // Convert "grade6" to "Grade 6", "grade10" to "Grade 10", etc.
+    return gradeValue.replace(/grade(\d+)/, "Grade $1");
   }
 
   displayDonations(list) {
@@ -151,12 +158,22 @@ export class Feed {
 
       const phoneText = donation.personal?.whatsapp || "Not provided";
 
+      // Build tags HTML - include grade for O/L
+      let tagsHTML = `
+        <span class="tag">${donation.education?.language || "Unknown"}</span>
+        <span class="tag">${donation.education?.subject || "Unknown"}</span>
+      `;
+
+      // Add grade tag only for O/L category
+      if (this.category === 'ol' && donation.education?.grade) {
+        tagsHTML += `<span class="tag grade-tag">${this.formatGrade(donation.education.grade)}</span>`;
+      }
+
       card.innerHTML = `
   <h3 class="donation-title">${donation.book?.title || "No title"}</h3>
 
   <div class="donation-tags">
-    <span class="tag">${donation.s?.language || "Unknown"}</span>
-    <span class="tag">${donation.s?.subject || "Unknown"}</span>
+    ${tagsHTML}
   </div>
 
   <p class="donation-description">${description}</p>
@@ -170,7 +187,6 @@ export class Feed {
     <button class="request-btn" data-id="${donation.id}">Request Book</button>
   </div>
 `;
-
 
       this.feedContainer.appendChild(card);
     });
@@ -216,8 +232,8 @@ export class Feed {
   }
 
   populateSortingOptions() {
-    const subjects = [...new Set(this.donations.map(d => d.s.subject))].sort();
-    const languages = [...new Set(this.donations.map(d => d.s.language))].sort();
+    const subjects = [...new Set(this.donations.map(d => d.education?.subject).filter(Boolean))].sort();
+    const languages = [...new Set(this.donations.map(d => d.education?.language).filter(Boolean))].sort();
 
     subjects.forEach(sub => this.sortSubject.appendChild(new Option(sub, sub)));
     languages.forEach(lang => this.sortLanguage.appendChild(new Option(lang, lang)));
@@ -233,8 +249,8 @@ export class Feed {
     const languageFilter = this.sortLanguage.value;
 
     const filtered = this.donations.filter(d =>
-      (subjectFilter === "" || d.s.subject === subjectFilter) &&
-      (languageFilter === "" || d.s.language === languageFilter)
+      (subjectFilter === "" || d.education?.subject === subjectFilter) &&
+      (languageFilter === "" || d.education?.language === languageFilter)
     );
 
     this.displayDonations(filtered);

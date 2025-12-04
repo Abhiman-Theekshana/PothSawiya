@@ -1,25 +1,63 @@
 // Sri Lanka Districts and Towns
 const districtsData = {
-  Colombo: ["Colombo", "Negombo", "Ja-Ela", "Wattala", "Attanagalla"],
-  Gampaha: ["Gampaha", "Negombo", "Ja-Ela", "Kelaniya", "Peliyagoda"],
-  Kalutara: ["Kalutara", "Panadura", "Beruwala", "Aluthgama", "Matugama"],
-  Kandy: ["Kandy", "Peradeniya", "Gampola", "Nawalapitiya", "Akurana"],
-  Matara: ["Matara", "Weligama", "Mirissa", "Atuwara", "Hakmana"],
-  Galle: ["Galle", "Unawatuna", "Koggala", "Thalpe", "Benthota"],
-  Ampara: ["Ampara", "Kalmunai", "Akkaraipattu", "Pottuvil", "Sammanthurai"],
-  Trincomalee: ["Trincomalee", "Kinniya", "Kuchchaveli", "Mutur", "China Bay"],
-  Batticaloa: ["Batticaloa", "Kalkudah", "Kallady", "Eravur", "Porativupattu"],
-  Anuradhapura: ["Anuradhapura", "Kekirawa", "Medawachchiya", "Nuwara Wewa", "Eppawala"],
-  Polonnaruwa: ["Polonnaruwa", "Kaduruwela", "Habarana", "Medirigiriya", "Thabuttegama"],
-  Badulla: ["Badulla", "Bandarawela", "Haputale", "Diyatalawa", "Welimada"],
-  Monaragala: ["Monaragala", "Bibile", "Buttala", "Madulla", "Kataragama"],
-  Ratnapura: ["Ratnapura", "Balangoda", "Eheliyagoda", "Pelmadulla", "Kalawana"],
-  Kegalle: ["Kegalle", "Mawanella", "Rambukkana", "Warakapola", "Kitulgala"],
-  "Nuwara Eliya": ["Nuwara Eliya", "Kandy", "Peradeniya", "Ambewela", "Pussellawa"],
-  Kurunegala: ["Kurunegala", "Warapitiya", "Kuliyapitiya", "Ibbagamuwa", "Nikaweratiya"],
-  Puttalam: ["Puttalam", "Chilaw", "Nattandiya", "Wennappuwa", "Lankanida"],
-  Mullaittivu: ["Mullaittivu", "Mullaitivu", "Oddusuddan", "Nanthikadal", "Chundikulam"],
-  Jaffna: ["Jaffna", "Mullaitivu", "Nallur", "Chavakacheri", "Kopay"],
+  // Western Province
+  Colombo: ["Colombo", "Dehiwala-Mount Lavinia", "Moratuwa", "Sri Jayawardenepura Kotte", "Kolonnawa", "Kesbewa", "Maharagama", "Homagama", "Kaduwela", "Boralesgamuwa", "Piliyandala", "Nugegoda", "Kotte", "Hanwella", "Padukka", "Horana", "Ratmalana"],
+  
+  Gampaha: ["Gampaha", "Negombo", "Ja-Ela", "Kelaniya", "Peliyagoda", "Wattala", "Minuwangoda", "Katunayake", "Kadawatha", "Ragama", "Divulapitiya", "Nittambuwa", "Veyangoda", "Mirigama", "Ganemulla", "Kandana", "Kiribathgoda"],
+  
+  Kalutara: ["Kalutara", "Panadura", "Beruwala", "Aluthgama", "Matugama", "Horana", "Wadduwa", "Bandaragama", "Ingiriya", "Bulathsinhala", "Dodangoda", "Agalawatta"],
+
+  // Central Province
+  Kandy: ["Kandy", "Peradeniya", "Gampola", "Nawalapitiya", "Katugastota", "Akurana", "Kadugannawa", "Pilimatalawa", "Wattegama", "Gelioya", "Daulagala", "Kundasale"],
+  
+  Matale: ["Matale", "Dambulla", "Sigiriya", "Galewela", "Ukuwela", "Rattota", "Naula", "Pallepola", "Yatawatta"],
+  
+  "Nuwara Eliya": ["Nuwara Eliya", "Hatton", "Nuwara Eliya Town", "Talawakelle", "Ambewela", "Pussellawa", "Ginigathena", "Walapane", "Kotmale", "Rikillagaskada"],
+
+  // Southern Province
+  Galle: ["Galle", "Hikkaduwa", "Ambalangoda", "Elpitiya", "Bentota", "Balapitiya", "Koggala", "Ahangama", "Unawatuna", "Baddegama", "Habaraduwa", "Karapitiya", "Imaduwa", "Yakkalamulla"],
+  
+  Matara: ["Matara", "Weligama", "Mirissa", "Dikwella", "Hakmana", "Akuressa", "Devinuwara", "Deniyaya", "Kekanadura", "Kamburugamuwa", "Athuraliya"],
+  
+  Hambantota: ["Hambantota", "Tangalle", "Tissamaharama", "Ambalantota", "Beliatta", "Weeraketiya", "Suriyawewa", "Middeniya", "Walasmulla", "Angunakolapelessa", "Katuwana", "Lunugamvehera", "Hambantota Town"],
+
+  // Northern Province
+  Jaffna: ["Jaffna", "Nallur", "Chavakachcheri", "Point Pedro", "Chankanai", "Karainagar", "Valvettithurai", "Velanai", "Kayts", "Kopay", "Uduvil", "Tellippalai", "Sandilipay"],
+  
+  Kilinochchi: ["Kilinochchi", "Paranthan", "Poonakary", "Pallai", "Karachchi"],
+  
+  Mannar: ["Mannar", "Nanattan", "Madhu", "Pesalai", "Thalaimannar", "Murunkan"],
+  
+  Vavuniya: ["Vavuniya", "Nedunkerni", "Omanthai", "Chettikulam", "Vavuniya South"],
+  
+  Mullaitivu: ["Mullaitivu", "Oddusuddan", "Puthukkudiyiruppu", "Mankulam", "Maritimepattu", "Thunukkai", "Welioya"],
+
+  // Eastern Province
+  Trincomalee: ["Trincomalee", "Kinniya", "Kuchchaveli", "Mutur", "Nilaveli", "Kantale", "Seruvila", "Gomarankadawala", "China Bay", "Tampalakamam"],
+  
+  Batticaloa: ["Batticaloa", "Kalkudah", "Valachchenai", "Eravur", "Chenkaladi", "Kokkaddicholai", "Kattankudy", "Kaluwanchikudy", "Araipattai"],
+  
+  Ampara: ["Ampara", "Kalmunai", "Akkaraipattu", "Sammanthurai", "Pottuvil", "Sainthamaruthu", "Nintavur", "Addalachchenai", "Uhana", "Mahaoya", "Damana", "Padiyatalawa"],
+
+  // North Central Province
+  Anuradhapura: ["Anuradhapura", "Kekirawa", "Medawachchiya", "Tambuttegama", "Eppawala", "Galenbindunuwewa", "Mihintale", "Nochchiyagama", "Kahatagasdigiliya", "Thalawa", "Galnewa"],
+  
+  Polonnaruwa: ["Polonnaruwa", "Kaduruwela", "Hingurakgoda", "Medirigiriya", "Dimbulagala", "Bakamuna", "Jayanthipura", "Aralaganvila", "Welikanda"],
+
+  // Uva Province
+  Badulla: ["Badulla", "Bandarawela", "Haputale", "Welimada", "Mahiyanganaya", "Diyatalawa", "Ella", "Passara", "Hali Ela", "Kandaketiya", "Girandurukotte", "Meegahakivula"],
+  
+  Monaragala: ["Monaragala", "Bibile", "Wellawaya", "Buttala", "Katharagama", "Siyambalanduwa", "Medagama", "Thanamalvila", "Madulla", "Okkampitiya"],
+
+  // Sabaragamuwa Province
+  Ratnapura: ["Ratnapura", "Embilipitiya", "Balangoda", "Pelmadulla", "Eheliyagoda", "Kuruwita", "Kahawatta", "Rakwana", "Godakawela", "Kalawana", "Opanayaka", "Nivithigala"],
+  
+  Kegalle: ["Kegalle", "Mawanella", "Rambukkana", "Warakapola", "Dehiowita", "Galigamuwa", "Ruwanwella", "Yatiyantota", "Bulathkohupitiya", "Aranayaka", "Deraniyagala"],
+
+  // North Western Province
+  Kurunegala: ["Kurunegala", "Kuliyapitiya", "Polgahawela", "Pannala", "Narammala", "Wariyapola", "Mawathagama", "Nikaweratiya", "Giriulla", "Alawwa", "Bingiriya", "Ibbagamuwa", "Dodangaslanda", "Galgamuwa"],
+  
+  Puttalam: ["Puttalam", "Chilaw", "Nattandiya", "Wennappuwa", "Anamaduwa", "Marawila", "Dankotuwa", "Pallama", "Mundel", "Madampe", "Kalpitiya", "Lunuwila"]
 }
 
 // O/L Subjects
@@ -140,10 +178,11 @@ function updateTowns() {
   }
 }
 
-// Update Subjects based on Category
+// Update Subjects and Grade based on Category
 function updateSubjects() {
   const categoryRadios = document.querySelectorAll('input[name="category"]')
   const subjectSelect = document.getElementById("subject")
+  const gradeGroup = document.getElementById("gradeGroup")
   let selectedCategory = null
 
   categoryRadios.forEach((radio) => {
@@ -155,6 +194,11 @@ function updateSubjects() {
   subjectSelect.innerHTML = '<option value="">Select Subject</option>'
 
   if (selectedCategory === "ol") {
+    // Show grade selection for O/L
+    if (gradeGroup) {
+      gradeGroup.style.display = "block"
+    }
+    
     olSubjects.forEach((subject) => {
       const option = document.createElement("option")
       option.value = subject
@@ -162,12 +206,26 @@ function updateSubjects() {
       subjectSelect.appendChild(option)
     })
   } else if (selectedCategory === "al") {
+    // Hide grade selection for A/L
+    if (gradeGroup) {
+      gradeGroup.style.display = "none"
+      // Clear grade selection
+      document.querySelectorAll('input[name="grade"]').forEach(radio => {
+        radio.checked = false
+      })
+    }
+    
     alSubjects.forEach((subject) => {
       const option = document.createElement("option")
       option.value = subject
       option.textContent = subject
       subjectSelect.appendChild(option)
     })
+  } else {
+    // Hide grade selection if no category selected
+    if (gradeGroup) {
+      gradeGroup.style.display = "none"
+    }
   }
 }
 
@@ -257,6 +315,15 @@ function validateStep(stepNumber) {
       isValid = false
     }
 
+    // Validate grade only if O/L is selected
+    if (category && category.value === "ol") {
+      const grade = document.querySelector('input[name="grade"]:checked')
+      if (!grade) {
+        showError("gradeError", "Please select a grade")
+        isValid = false
+      }
+    }
+
     if (!language) {
       showError("languageError", "Please select a language")
       isValid = false
@@ -304,16 +371,25 @@ function setupFormSubmit() {
 
       if (validateStep(4)) {
         // Collect form data
+        const category = document.querySelector('input[name="category"]:checked').value
         const formData = {
           name: document.getElementById("name").value,
           whatsapp: document.getElementById("whatsapp").value,
           district: document.getElementById("district").value,
           town: document.getElementById("town").value,
-          category: document.querySelector('input[name="category"]:checked').value,
+          category: category,
           subject: document.getElementById("subject").value,
           language: document.querySelector('input[name="language"]:checked').value,
           title: document.getElementById("title").value,
           description: document.getElementById("description").value,
+        }
+
+        // Add grade only if O/L is selected
+        if (category === "ol") {
+          const gradeRadio = document.querySelector('input[name="grade"]:checked')
+          if (gradeRadio) {
+            formData.grade = gradeRadio.value
+          }
         }
 
         // Show success message
@@ -321,6 +397,12 @@ function setupFormSubmit() {
 
         // Reset form
         form.reset()
+        
+        // Hide grade group after reset
+        const gradeGroup = document.getElementById("gradeGroup")
+        if (gradeGroup) {
+          gradeGroup.style.display = "none"
+        }
       }
     })
   }
